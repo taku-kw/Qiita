@@ -1,0 +1,54 @@
+package com.example.qiita.view.main
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
+import com.example.qiita.R
+import com.example.qiita.data.Article
+import de.hdodenhof.circleimageview.CircleImageView
+import java.io.InputStream
+
+class ArticleListAdapter(private val context: Context, private val articleList: Array<Article>) : RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val avatarImage : CircleImageView
+        val userName : TextView
+        val postDate : TextView
+        val articleTitle: TextView
+
+        init {
+            avatarImage = view.findViewById(R.id.avatarImage)
+            userName = view.findViewById(R.id.userName)
+            postDate = view.findViewById(R.id.postDate)
+            articleTitle = view.findViewById(R.id.articleTitle)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.article_list_item, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.avatarImage.setImageBitmap(getBitmapFromAssets(articleList[position].avatarImagePath))
+        holder.userName.text = articleList[position].userName
+        holder.postDate.text = "${articleList[position].postDate.year}年${articleList[position].postDate.monthValue.toString().padStart(2, '0')}月${articleList[position].postDate.dayOfMonth.toString().padStart(2, '0')}日"
+        holder.articleTitle.text = articleList[position].articleTitle
+    }
+
+    override fun getItemCount(): Int = articleList.size
+
+    private fun getBitmapFromAssets(path : String) : Bitmap {
+        val inputStream = context.assets.open(path)
+        return BitmapFactory.decodeStream(inputStream)
+    }
+}
