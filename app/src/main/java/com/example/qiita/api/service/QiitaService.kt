@@ -9,8 +9,8 @@ interface QiitaService {
 
     @GET("/api/v2/items")
     fun getArticleList(
+        @Query("query") searchWord: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-        @Query("query") searchWord: String,
     ): Call<List<GetArticleListResponse>>
 }

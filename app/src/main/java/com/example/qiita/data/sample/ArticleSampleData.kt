@@ -3,7 +3,7 @@ package com.example.qiita.data.sample
 import com.example.qiita.data.Article
 import java.time.LocalDate
 
-val articleSampleData = arrayOf<Article>(
+val articleSampleData = listOf<Article>(
     Article("avatarImage/1.png", "@kunichiko (Kunihiko Ohnaka)", LocalDate.of(2022, 6, 20), "FlutterのAndroidアプリでAPKファイルサイズが突然倍くらいになったが、実は問題なくてむしろ推奨された動作だった件"),
     Article("avatarImage/2.jpg", "@hironobu-igawa", LocalDate.of(2022, 3, 28), "【macOS】Flutterの環境構築【iOS / Android対応】【4つの手順】"),
     Article("avatarImage/3.png", "@norihiko_tokudaiji", LocalDate.of(2022, 5, 17), "Flutter環境アップデート（2.2.3 → 3.0.0：Windows）"),
