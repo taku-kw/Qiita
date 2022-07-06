@@ -16,6 +16,8 @@ import com.example.qiita.R
 import com.example.qiita.data.Article
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.InputStream
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ArticleListAdapter(private val context: Context, private val articleList: Array<Article>) : RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
 
@@ -41,7 +43,7 @@ class ArticleListAdapter(private val context: Context, private val articleList: 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.avatarImage.setImageBitmap(getBitmapFromAssets(articleList[position].avatarImagePath))
         holder.userName.text = articleList[position].userName
-        holder.postDate.text = "${articleList[position].postDate.year}年${articleList[position].postDate.monthValue.toString().padStart(2, '0')}月${articleList[position].postDate.dayOfMonth.toString().padStart(2, '0')}日"
+        holder.postDate.text = convStringFromLocalDate(articleList[position].postDate)
         holder.articleTitle.text = articleList[position].articleTitle
     }
 
@@ -50,5 +52,10 @@ class ArticleListAdapter(private val context: Context, private val articleList: 
     private fun getBitmapFromAssets(path : String) : Bitmap {
         val inputStream = context.assets.open(path)
         return BitmapFactory.decodeStream(inputStream)
+    }
+
+    private fun convStringFromLocalDate(localDate: LocalDate): String {
+        val dtf = DateTimeFormatter.ofPattern("yyyy年MM月dd日")
+        return localDate.format(dtf)
     }
 }
