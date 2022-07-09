@@ -6,19 +6,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class ArticleListViewModel : ViewModel() {
+@HiltViewModel
+class ArticleListViewModel @Inject constructor(
+    private val articleListRepository: ArticleListRepository
+) : ViewModel() {
     val articleList = MutableLiveData<MutableList<Article>>(mutableListOf())
-    private val articleListRepository = ArticleListRepository()
 
     fun searchArticle(searchWord: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val newArticleList =
-                    articleListRepository.getArticleList(searchWord) as MutableList<Article>
+                    articleListRepository.getArticleList(searchWord, 1, 20) as MutableList<Article>
                 articleList.postValue(newArticleList)
             } catch (e: Exception) {
                 Log.w("searchArticle", e.toString())

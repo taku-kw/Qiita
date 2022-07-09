@@ -4,14 +4,24 @@ import com.example.qiita.api.QiitaApi
 import com.example.qiita.data.Article
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class ArticleListRepository {
-    private val qiitaApi = QiitaApi()
-
+interface ArticleListRepository {
     suspend fun getArticleList(
         searchWord: String,
-        page: Int = 1,
-        perPage: Int = 20,
+        page: Int,
+        perPage: Int,
+    ): List<Article>
+}
+
+class ArticleListRepositoryImpl @Inject constructor(
+    private val qiitaApi: QiitaApi
+) : ArticleListRepository {
+
+    override suspend fun getArticleList(
+        searchWord: String,
+        page: Int,
+        perPage: Int,
     ): List<Article> {
         val articleList = mutableListOf<Article>()
 

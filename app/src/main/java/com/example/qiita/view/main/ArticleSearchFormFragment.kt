@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.qiita.R
 import com.example.qiita.viewmodel.ArticleListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArticleSearchFormFragment: Fragment() {
     private val model: ArticleListViewModel by activityViewModels()
 

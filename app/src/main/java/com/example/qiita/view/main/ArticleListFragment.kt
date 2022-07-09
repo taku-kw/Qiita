@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.qiita.R
 import com.example.qiita.data.sample.articleSampleData
 import com.example.qiita.viewmodel.ArticleListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArticleListFragment : Fragment() {
     private val model: ArticleListViewModel by activityViewModels()
 
