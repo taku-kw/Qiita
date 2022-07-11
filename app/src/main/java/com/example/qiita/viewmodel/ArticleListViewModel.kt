@@ -17,6 +17,7 @@ class ArticleListViewModel @Inject constructor(
     private val articleListRepository: ArticleListRepository
 ) : ViewModel() {
     val articleList = MutableLiveData<MutableList<Article>>(mutableListOf())
+    val toastMsg = MutableLiveData<String>()
 
     fun searchArticle(searchWord: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -26,6 +27,7 @@ class ArticleListViewModel @Inject constructor(
                 articleList.postValue(newArticleList)
             } catch (e: Exception) {
                 Log.w("searchArticle", e.toString())
+                toastMsg.postValue(e.toString())
             }
         }
     }
