@@ -45,7 +45,6 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.avatarImage.load(Uri.parse(articleList[position].avatarImagePath))
-        articleList[position].avatarImagePath.toUri().buildUpon().scheme("https").build()
         holder.userName.text = articleList[position].userName
         holder.postDate.text = convStringFromLocalDate(articleList[position].postDate)
         holder.articleTitle.text = articleList[position].articleTitle

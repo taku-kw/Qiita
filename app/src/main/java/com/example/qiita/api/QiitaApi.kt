@@ -33,8 +33,7 @@ class QiitaApiImpl @Inject constructor(
         perPage: Int,
     ): List<GetArticleListResponse>? {
         val api = service.getArticleList(searchWord, page, perPage)
-        val responseBody = apiCall(api)
-        return responseBody.body()
+        return apiCall(api)
     }
 }
 
