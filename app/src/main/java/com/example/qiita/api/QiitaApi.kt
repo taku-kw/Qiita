@@ -1,18 +1,7 @@
 package com.example.qiita.api
 
-import com.example.qiita.BuildConfig
 import com.example.qiita.api.service.QiitaService
-import com.example.qiita.data.apiResponse.getArticleList.GetArticleListResponse
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.qiita.data.apiResponse.getArticleList.GetArticleListResponseWithTotalCount
 import javax.inject.Inject
 
 interface QiitaApi {
@@ -20,7 +9,7 @@ interface QiitaApi {
         searchWord: String,
         page: Int,
         perPage: Int,
-    ): List<GetArticleListResponse>?
+    ): GetArticleListResponseWithTotalCount
 }
 
 class QiitaApiImpl @Inject constructor(
@@ -31,9 +20,13 @@ class QiitaApiImpl @Inject constructor(
         searchWord: String,
         page: Int,
         perPage: Int,
-    ): List<GetArticleListResponse>? {
-        val api = service.getArticleList(searchWord, page, perPage)
-        return apiCall(api)
+    ): GetArticleListResponseWithTotalCount {
+        val response = apiCall(service.getArticleList(searchWord, page, perPage))
+        val totalCount = response.headers()["Total-Count"] ?: "1"
+        return GetArticleListResponseWithTotalCount(
+            response.body(),
+            totalCount.toInt()
+        )
     }
 }
 

@@ -2,6 +2,7 @@ package com.example.qiita.repository
 
 import com.example.qiita.api.QiitaApi
 import com.example.qiita.data.Article
+import com.example.qiita.data.ArticleList
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -11,7 +12,7 @@ interface ArticleListRepository {
         searchWord: String,
         page: Int,
         perPage: Int,
-    ): List<Article>
+    ): ArticleList
 }
 
 class ArticleListRepositoryImpl @Inject constructor(
@@ -22,10 +23,12 @@ class ArticleListRepositoryImpl @Inject constructor(
         searchWord: String,
         page: Int,
         perPage: Int,
-    ): List<Article> {
+    ): ArticleList {
         val articleList = mutableListOf<Article>()
 
-        qiitaApi.getArticleList(searchWord, page, perPage)?.forEach { data ->
+        val response = qiitaApi.getArticleList(searchWord, page, perPage)
+
+        response.list?.forEach { data ->
             articleList.add(
                 Article(
                     data.user.profile_image_url,
@@ -36,6 +39,6 @@ class ArticleListRepositoryImpl @Inject constructor(
             )
         }
 
-        return articleList
+        return ArticleList(articleList, response.totalCount)
     }
 }
