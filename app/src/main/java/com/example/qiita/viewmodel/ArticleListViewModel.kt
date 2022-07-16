@@ -23,17 +23,12 @@ class ArticleListViewModel @Inject constructor(
     private var page = 0
     private val perPage = 20
     private var totalCount = 0
-    var isNewSearch = true
 
     fun searchArticle(
         searchWord: String,
         page: Int = 1,
         existingArticleList: MutableList<Article> = mutableListOf()
     ) {
-        if (existingArticleList.isEmpty()) {
-            isNewSearch = true
-        }
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val data = articleListRepository.getArticleList(searchWord, page, perPage)
@@ -53,8 +48,11 @@ class ArticleListViewModel @Inject constructor(
 
     fun searchNextArticle() {
         if (page * perPage <= totalCount) {
-            isNewSearch = false
             searchArticle(searchWord, ++page, articleList.value!!)
         }
+    }
+
+    fun reset() {
+        articleList.postValue(mutableListOf())
     }
 }

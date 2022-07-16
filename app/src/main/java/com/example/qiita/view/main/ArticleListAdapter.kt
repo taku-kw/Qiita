@@ -64,5 +64,6 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
 
     fun setArticleList(articleList: List<Article>) {
         this.articleList = articleList
+        notifyDataSetChanged()
     }
 }

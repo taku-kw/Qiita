@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ArticleListScrollListener(
     val layoutManager: LinearLayoutManager,
-    val func: () -> Unit,
+    val getNextPageFunction: () -> Unit,
 ) : RecyclerView.OnScrollListener() {
 
     private var previousTotal = 0
@@ -34,7 +34,7 @@ class ArticleListScrollListener(
             if (!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)
             ) {
-                func()
+                getNextPageFunction()
                 loading = true
             }
         }

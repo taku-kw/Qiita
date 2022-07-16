@@ -32,6 +32,7 @@ class ArticleSearchFormFragment: Fragment() {
         val searchButton = view.findViewById<Button>(R.id.searchButton)
 
         searchButton.setOnClickListener{
+            model.reset()
             model.searchArticle(searchWord.text.toString())
         }
     }
