@@ -5,13 +5,16 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.qiita.R
 import com.example.qiita.data.Article
 import de.hdodenhof.circleimageview.CircleImageView
@@ -19,7 +22,7 @@ import java.io.InputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ArticleListAdapter(private val context: Context, private val articleList: Array<Article>) : RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
+class ArticleListAdapter(private val context: Context, private var articleList: List<Article>) : RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val avatarImage : CircleImageView
@@ -41,7 +44,7 @@ class ArticleListAdapter(private val context: Context, private val articleList: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.avatarImage.setImageBitmap(getBitmapFromAssets(articleList[position].avatarImagePath))
+        holder.avatarImage.load(Uri.parse(articleList[position].avatarImagePath))
         holder.userName.text = articleList[position].userName
         holder.postDate.text = convStringFromLocalDate(articleList[position].postDate)
         holder.articleTitle.text = articleList[position].articleTitle
@@ -57,5 +60,9 @@ class ArticleListAdapter(private val context: Context, private val articleList: 
     private fun convStringFromLocalDate(localDate: LocalDate): String {
         val dtf = DateTimeFormatter.ofPattern("yyyy年MM月dd日")
         return localDate.format(dtf)
+    }
+
+    fun setArticleList(articleList: List<Article>) {
+        this.articleList = articleList
     }
 }
