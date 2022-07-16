@@ -19,16 +19,40 @@ class ArticleListViewModel @Inject constructor(
     val articleList = MutableLiveData<MutableList<Article>>(mutableListOf())
     val toastMsg = MutableLiveData<String>()
 
-    fun searchArticle(searchWord: String) {
+    private var searchWord = ""
+    private var page = 0
+    private val perPage = 20
+    private var totalCount = 0
+
+    fun searchArticle(
+        searchWord: String,
+        page: Int = 1,
+        existingArticleList: MutableList<Article> = mutableListOf()
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val newArticleList =
-                    articleListRepository.getArticleList(searchWord, 1, 20) as MutableList<Article>
-                articleList.postValue(newArticleList)
+                val data = articleListRepository.getArticleList(searchWord, page, perPage)
+
+                val newArticleList = data.list as MutableList<Article>
+                articleList.postValue((existingArticleList + newArticleList).toMutableList())
+
+                this@ArticleListViewModel.searchWord = searchWord
+                this@ArticleListViewModel.page = page
+                this@ArticleListViewModel.totalCount = data.totalCount
             } catch (e: Exception) {
                 Log.w("searchArticle", e.toString())
                 toastMsg.postValue(e.toString())
             }
         }
+    }
+
+    fun searchNextArticle() {
+        if (page * perPage <= totalCount) {
+            searchArticle(searchWord, ++page, articleList.value!!)
+        }
+    }
+
+    fun reset() {
+        articleList.postValue(mutableListOf())
     }
 }

@@ -37,10 +37,18 @@ class ArticleListFragment : Fragment() {
         articleListView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         articleListView.adapter = adapter
 
+        articleListView.apply {
+            val linearLayoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = linearLayoutManager
+            setAdapter(adapter)
+            addOnScrollListener(ArticleListScrollListener(linearLayoutManager) {
+                model.searchNextArticle()
+            })
+        }
+
         model.articleList.observe(viewLifecycleOwner, Observer { list ->
             val tempAdapter = articleListView.adapter as ArticleListAdapter
             tempAdapter.setArticleList(list)
-            tempAdapter.notifyDataSetChanged()
         })
 
         model.toastMsg.observe(viewLifecycleOwner, Observer { msg ->
