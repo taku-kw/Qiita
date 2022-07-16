@@ -42,7 +42,7 @@ class ArticleListFragment : Fragment() {
             object : ArticleListAdapter.OnArticleClickListener {
                 override fun onItemClick(article: Article) {
                     parentFragmentManager.beginTransaction()
-                        .replace(R.id.contents_webview, ContentsFragment.newInstance(article.url))
+                        .replace(R.id.articleListFragment, ContentsFragment.newInstance(article.url))
                         .addToBackStack(null)
                         .commit()
                 }
