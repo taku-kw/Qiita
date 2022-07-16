@@ -7,4 +7,5 @@ data class Article (
     val userName: String,
     val postDate: LocalDate,
     val articleTitle: String,
+    val url: String,
 )

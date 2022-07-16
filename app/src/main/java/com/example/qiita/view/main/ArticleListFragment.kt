@@ -11,7 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qiita.R
-import com.example.qiita.data.sample.articleSampleData
+import com.example.qiita.data.Article
+import com.example.qiita.view.contents.ContentsFragment
 import com.example.qiita.viewmodel.ArticleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,10 +33,21 @@ class ArticleListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val articleListView = view.findViewById<RecyclerView>(R.id.articleListView)
-        val adapter = ArticleListAdapter(view.context, articleSampleData)
+        val adapter = ArticleListAdapter(view.context, listOf())
 
         articleListView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         articleListView.adapter = adapter
+
+        adapter.setOnArticleClickListener(
+            object : ArticleListAdapter.OnArticleClickListener {
+                override fun onItemClick(article: Article) {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.contents_webview, ContentsFragment.newInstance(article.url))
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
+        )
 
         articleListView.apply {
             val linearLayoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
