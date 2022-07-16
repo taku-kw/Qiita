@@ -7,24 +7,13 @@
     tools:context=".view.main.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/articleListFragment"
-        android:name="com.example.qiita.view.main.ArticleListFragment"
+        android:id="@+id/topPageFragment"
+        android:name="com.example.qiita.view.main.TopPageFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView"
-        tools:layout="@layout/article_list_fragment" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.example.qiita.view.main.ArticleSearchFormFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/article_search_form_fragment" />
-
+        tools:layout="@layout/top_page_fragment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

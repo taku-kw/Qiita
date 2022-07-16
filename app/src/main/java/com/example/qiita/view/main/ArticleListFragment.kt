@@ -41,8 +41,9 @@ class ArticleListFragment : Fragment() {
         adapter.setOnArticleClickListener(
             object : ArticleListAdapter.OnArticleClickListener {
                 override fun onItemClick(article: Article) {
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.articleListFragment, ContentsFragment.newInstance(article.url))
+
+                    parentFragment!!.parentFragmentManager.beginTransaction()
+                        .replace(R.id.topPageFragment, ContentsFragment.newInstance(article.url))
                         .addToBackStack(null)
                         .commit()
                 }
