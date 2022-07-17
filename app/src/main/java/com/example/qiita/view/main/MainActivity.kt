@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.searchIcon -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.topPageFragment, ContentsFragment.newInstance("https://m.yahoo.co.jp/"))
+                    .replace(R.id.topPageFragment, ContentsFragment.newInstance("https://www.yahoo.co.jp/"))
                     .addToBackStack(null)
                     .commit()
 

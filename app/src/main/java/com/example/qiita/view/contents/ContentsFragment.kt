@@ -1,7 +1,7 @@
 package com.example.qiita.view.contents
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,12 +40,14 @@ class ContentsFragment : Fragment() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                Log.i("****** webView.webViewClient ******", "URL: ${request?.url.toString()}")
-                return if (request != null) {
-                    Log.i("****** webView.webViewClient ******", "return ${!(request.url.toString().contains("qiita.com"))}")
-                    !(request.url.toString().contains("qiita.com"))
+                val url = request?.url.toString()
+
+                return if (url.contains("qiita.com")) {
+                    // WebViewで表示
+                    false
                 } else {
-                    Log.i("****** webView.webViewClient ******", "return true cuz request is NULL")
+                    // 外部ブラウザで表示
+                    view?.context?.startActivity(Intent(Intent.ACTION_VIEW, request?.url))
                     true
                 }
             }
