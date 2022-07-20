@@ -1,4 +1,4 @@
-package com.example.qiita.view.main
+package com.example.qiita.view.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.qiita.R
 
-class TopPageFragment : Fragment() {
-
+class SettingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.top_page_fragment, container, false)
+        return inflater.inflate(R.layout.setting_fragment, container, false)
     }
 }
