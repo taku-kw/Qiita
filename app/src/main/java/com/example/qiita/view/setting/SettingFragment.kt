@@ -13,7 +13,6 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.setting_fragment, container, false)
     }
 }

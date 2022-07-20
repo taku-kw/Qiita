@@ -14,7 +14,6 @@ class TopPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.top_page_fragment, container, false)
     }
 }

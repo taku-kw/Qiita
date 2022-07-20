@@ -25,7 +25,6 @@ class ArticleListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.article_list_fragment, container, false)
     }
 
