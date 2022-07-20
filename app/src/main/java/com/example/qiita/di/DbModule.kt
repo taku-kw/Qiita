@@ -2,6 +2,7 @@ package com.example.qiita.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.qiita.constant.DbConst.Companion.QIITA_DB_NAME
 import com.example.qiita.dao.QiitaDao
 import com.example.qiita.db.QiitaDb
 import dagger.Module
@@ -23,7 +24,7 @@ object DbModule {
         return Room.databaseBuilder(
             context,
             QiitaDb::class.java,
-            "qiita.db"
+            QIITA_DB_NAME
         ).build()
     }
 

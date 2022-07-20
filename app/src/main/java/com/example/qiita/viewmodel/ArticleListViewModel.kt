@@ -24,6 +24,16 @@ class ArticleListViewModel @Inject constructor(
     private val perPage = 20
     private var totalCount = 0
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = articleListRepository.getSavedArticleList()
+            articleList.postValue(data.list.toMutableList())
+            // 無限スクロールの抑制
+            this@ArticleListViewModel.page = 1
+            this@ArticleListViewModel.totalCount = data.list.size
+        }
+    }
+
     fun searchArticle(
         searchWord: String,
         page: Int = 1,
@@ -34,11 +44,18 @@ class ArticleListViewModel @Inject constructor(
                 val data = articleListRepository.getArticleList(searchWord, page, perPage)
 
                 val newArticleList = data.list as MutableList<Article>
-                articleList.postValue((existingArticleList + newArticleList).toMutableList())
+                val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
+                articleList.postValue(joinedArticleList)
 
                 this@ArticleListViewModel.searchWord = searchWord
                 this@ArticleListViewModel.page = page
                 this@ArticleListViewModel.totalCount = data.totalCount
+
+                // 初回読み込みの場合、DBに保存する
+                if (page == 1) {
+                    articleListRepository.saveArticleList(joinedArticleList)
+                }
+
             } catch (e: Exception) {
                 Log.w("searchArticle", e.toString())
                 toastMsg.postValue(e.toString())
@@ -47,7 +64,7 @@ class ArticleListViewModel @Inject constructor(
     }
 
     fun searchNextArticle() {
-        if (page * perPage <= totalCount) {
+        if (page * perPage < totalCount) {
             searchArticle(searchWord, ++page, articleList.value!!)
         }
     }

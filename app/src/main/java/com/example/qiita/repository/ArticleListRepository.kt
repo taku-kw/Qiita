@@ -18,6 +18,8 @@ interface ArticleListRepository {
         page: Int,
         perPage: Int,
     ): ArticleList
+    fun getSavedArticleList(): ArticleList
+    fun saveArticleList(articleList: List<Article>)
 }
 
 class ArticleListRepositoryImpl @Inject constructor(
@@ -49,7 +51,7 @@ class ArticleListRepositoryImpl @Inject constructor(
         return ArticleList(articleList, response.totalCount)
     }
 
-    fun getSavedArticleList(): ArticleList {
+    override fun getSavedArticleList(): ArticleList {
         val articleList = mutableListOf<Article>()
 
         val savedArticleList = qiitaDao.getAll()
@@ -69,7 +71,7 @@ class ArticleListRepositoryImpl @Inject constructor(
         return ArticleList(articleList, articleList.size)
     }
 
-    fun saveArticleList(articleList: List<Article>) {
+    override fun saveArticleList(articleList: List<Article>) {
 
         // DBのテーブルを一括削除
         qiitaDao.deleteAll()
