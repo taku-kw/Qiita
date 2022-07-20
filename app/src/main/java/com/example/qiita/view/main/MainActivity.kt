@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.qiita.R
+import com.example.qiita.constant.UrlConst.Companion.QIITA_HELP_URL
+import com.example.qiita.constant.UrlConst.Companion.YAHOO_URL
 import com.example.qiita.view.contents.ContentsFragment
 import com.example.qiita.view.setting.SettingFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.helpIcon -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.topPageFragment, ContentsFragment.newInstance("https://help.qiita.com/"))
+                    .replace(R.id.topPageFragment, ContentsFragment.newInstance(QIITA_HELP_URL))
                     .addToBackStack(null)
                     .commit()
 
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.searchIcon -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.topPageFragment, ContentsFragment.newInstance("https://www.yahoo.co.jp/"))
+                    .replace(R.id.topPageFragment, ContentsFragment.newInstance(YAHOO_URL))
                     .addToBackStack(null)
                     .commit()
 

@@ -2,6 +2,7 @@ package com.example.qiita.di
 
 import com.example.qiita.BuildConfig
 import com.example.qiita.api.service.QiitaService
+import com.example.qiita.constant.UrlConst.Companion.QIITA_URL
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -48,7 +49,7 @@ object ServiceModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder().apply {
-            baseUrl("https://qiita.com")
+            baseUrl(QIITA_URL)
             addConverterFactory(GsonConverterFactory.create(gson))
             client(okHttpClient)
         }.build()
