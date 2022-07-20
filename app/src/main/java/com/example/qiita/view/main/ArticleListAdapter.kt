@@ -1,24 +1,19 @@
 package com.example.qiita.view.main
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.qiita.R
 import com.example.qiita.data.Article
 import de.hdodenhof.circleimageview.CircleImageView
-import java.io.InputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -38,6 +33,12 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
         }
     }
 
+    private lateinit var clickListener: OnArticleClickListener
+
+    interface OnArticleClickListener {
+        fun onItemClick(article: Article)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.article_list_item, parent, false)
         return ViewHolder(view)
@@ -48,6 +49,10 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
         holder.userName.text = articleList[position].userName
         holder.postDate.text = convStringFromLocalDate(articleList[position].postDate)
         holder.articleTitle.text = articleList[position].articleTitle
+
+        holder.itemView.setOnClickListener {
+            clickListener.onItemClick(articleList[position])
+        }
     }
 
     override fun getItemCount(): Int = articleList.size
@@ -65,5 +70,9 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
     fun setArticleList(articleList: List<Article>) {
         this.articleList = articleList
         notifyDataSetChanged()
+    }
+
+    fun setOnArticleClickListener(listener: OnArticleClickListener) {
+        this.clickListener = listener
     }
 }

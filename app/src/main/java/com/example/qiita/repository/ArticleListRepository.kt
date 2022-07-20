@@ -35,6 +35,7 @@ class ArticleListRepositoryImpl @Inject constructor(
                     data.user.name,
                     LocalDate.parse(data.created_at, DateTimeFormatter.ISO_OFFSET_DATE_TIME),
                     data.title,
+                    data.url,
                 )
             )
         }
