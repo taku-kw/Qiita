@@ -3,10 +3,10 @@ package com.example.qiita.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.qiita.constant.DbConst.Companion.QIITA_DB_TABLE_NAME
+import com.example.qiita.constant.DbConst.Companion.QIITA_DB_TABLE_ARTICLE
 import java.time.LocalDate
 
-@Entity(tableName = QIITA_DB_TABLE_NAME)
+@Entity(tableName = QIITA_DB_TABLE_ARTICLE)
 data class ArticleEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
