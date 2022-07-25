@@ -1,9 +1,12 @@
 package com.example.qiita.view.main
 
+import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -28,11 +31,15 @@ class ArticleSearchFormFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val searchWord = view.findViewById<EditText>(R.id.inputArea)
-        val searchButton = view.findViewById<Button>(R.id.searchButton)
+        val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        searchButton.setOnClickListener{
-            model.reset()
-            model.searchArticle(searchWord.text.toString())
+        searchWord.setOnKeyListener { _, keyCode, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                inputMethodManager.hideSoftInputFromWindow(searchWord.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+                model.searchArticle(searchWord.text.toString())
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
         }
     }
 }
