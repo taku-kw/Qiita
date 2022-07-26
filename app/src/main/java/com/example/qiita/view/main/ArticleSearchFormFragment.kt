@@ -36,6 +36,7 @@ class ArticleSearchFormFragment: Fragment() {
         searchWord.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 inputMethodManager.hideSoftInputFromWindow(searchWord.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+                model.reset()
                 model.searchArticle(searchWord.text.toString())
                 return@setOnKeyListener true
             }
