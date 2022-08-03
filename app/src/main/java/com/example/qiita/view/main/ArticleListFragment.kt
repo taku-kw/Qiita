@@ -70,4 +70,10 @@ class ArticleListFragment : Fragment() {
             Toast.makeText(view.context, msg, Toast.LENGTH_LONG).show()
         })
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        Loading.clearContext()
+    }
 }
