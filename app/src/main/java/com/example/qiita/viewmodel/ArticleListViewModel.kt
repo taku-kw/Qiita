@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
+import com.example.qiita.view.common.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,8 +40,13 @@ class ArticleListViewModel @Inject constructor(
         page: Int = 1,
         existingArticleList: MutableList<Article> = mutableListOf()
     ) {
+        Loading.show()
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                // TODO ローディングの確認用にsleep
+                Thread.sleep(3000)
+
                 val data = articleListRepository.getArticleList(searchWord, page, perPage)
 
                 val newArticleList = data.list as MutableList<Article>
@@ -60,6 +66,8 @@ class ArticleListViewModel @Inject constructor(
                 Log.w("searchArticle", e.toString())
                 toastMsg.postValue(e.toString())
             }
+
+            Loading.dismiss()
         }
     }
 

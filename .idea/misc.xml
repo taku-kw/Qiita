@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3175" />
+        <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/drawable/progress_frame.xml" value="0.3175" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/activity_contents.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/article_list_fragment.xml" value="0.358695652173913" />
@@ -11,6 +13,8 @@
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/contents_webview_fragment.xml" value="0.365625" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/fragment_article_search_form.xml" value="0.358695652173913" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/fragment_contents.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/progress.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/progress_framge.xml" value="0.275" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/setting_fragment.xml" value="0.1983695652173913" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/layout/top_page_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/kawamoto/AndroidStudioProjects/Qiita/app/src/main/res/menu/menu.xml" value="0.36666666666666664" />

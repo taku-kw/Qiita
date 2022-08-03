@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qiita.R
 import com.example.qiita.data.Article
+import com.example.qiita.view.common.Loading
 import com.example.qiita.view.contents.ContentsFragment
 import com.example.qiita.viewmodel.ArticleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +58,8 @@ class ArticleListFragment : Fragment() {
                 model.searchNextArticle()
             })
         }
+
+        Loading.setContext(view.context)
 
         model.articleList.observe(viewLifecycleOwner, Observer { list ->
             val tempAdapter = articleListView.adapter as ArticleListAdapter
