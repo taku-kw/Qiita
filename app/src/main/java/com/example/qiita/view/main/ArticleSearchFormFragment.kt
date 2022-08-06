@@ -2,6 +2,7 @@ package com.example.qiita.view.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.qiita.R
+import com.example.qiita.view.common.Loading
 import com.example.qiita.viewmodel.ArticleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,8 +38,17 @@ class ArticleSearchFormFragment: Fragment() {
         searchWord.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 inputMethodManager.hideSoftInputFromWindow(searchWord.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Calling model.reset()")
                 model.reset()
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Called model.reset()")
+
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Calling Loading.show()")
+                Loading.show()
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Called Loading.show()")
+
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Calling model.searchArticle()")
                 model.searchArticle(searchWord.text.toString())
+                Log.i("ArticleSearchFormFragment : searchWord.setOnKeyListener : Enter", "Called model.searchArticle()")
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false

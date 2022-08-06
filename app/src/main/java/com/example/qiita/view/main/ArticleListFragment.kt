@@ -1,6 +1,7 @@
 package com.example.qiita.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,10 @@ class ArticleListFragment : Fragment() {
         model.articleList.observe(viewLifecycleOwner, Observer { list ->
             val tempAdapter = articleListView.adapter as ArticleListAdapter
             tempAdapter.setArticleList(list)
+
+            Log.i("ArticleListFragment : model.articleList.observe", "list : $list")
+
+            Loading.dismiss()
         })
 
         model.toastMsg.observe(viewLifecycleOwner, Observer { msg ->

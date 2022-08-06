@@ -40,8 +40,6 @@ class ArticleListViewModel @Inject constructor(
         page: Int = 1,
         existingArticleList: MutableList<Article> = mutableListOf()
     ) {
-        Loading.show()
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // TODO ローディングの確認用にsleep
@@ -66,8 +64,6 @@ class ArticleListViewModel @Inject constructor(
                 Log.w("searchArticle", e.toString())
                 toastMsg.postValue(e.toString())
             }
-
-            Loading.dismiss()
         }
     }
 
