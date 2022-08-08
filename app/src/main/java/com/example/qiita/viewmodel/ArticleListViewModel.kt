@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.qiita.constant.LoadingState
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
 import com.example.qiita.view.common.Loading
@@ -18,6 +19,7 @@ class ArticleListViewModel @Inject constructor(
     private val articleListRepository: ArticleListRepository
 ) : ViewModel() {
     val articleList = MutableLiveData<MutableList<Article>>(mutableListOf())
+    val loadingState = MutableLiveData(LoadingState.NOT_LOADING)
     val toastMsg = MutableLiveData<String>()
 
     private var searchWord = ""
@@ -40,8 +42,6 @@ class ArticleListViewModel @Inject constructor(
         page: Int = 1,
         existingArticleList: MutableList<Article> = mutableListOf()
     ) {
-        Loading.show()
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // TODO ローディングの確認用にsleep
@@ -52,6 +52,7 @@ class ArticleListViewModel @Inject constructor(
                 val newArticleList = data.list as MutableList<Article>
                 val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
                 articleList.postValue(joinedArticleList)
+                endLoading()
 
                 this@ArticleListViewModel.searchWord = searchWord
                 this@ArticleListViewModel.page = page
@@ -66,8 +67,6 @@ class ArticleListViewModel @Inject constructor(
                 Log.w("searchArticle", e.toString())
                 toastMsg.postValue(e.toString())
             }
-
-            Loading.dismiss()
         }
     }
 
@@ -79,5 +78,13 @@ class ArticleListViewModel @Inject constructor(
 
     fun reset() {
         articleList.postValue(mutableListOf())
+    }
+
+    fun beginLoading() {
+        loadingState.postValue(LoadingState.LOADING)
+    }
+
+    fun endLoading() {
+        loadingState.postValue(LoadingState.NOT_LOADING)
     }
 }
