@@ -5,9 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
-import android.view.WindowInsets
-import android.view.WindowInsetsController
-import android.view.WindowManager
 import com.example.qiita.R
 
 class Loading {
@@ -16,6 +13,9 @@ class Loading {
 
         fun setContext(context: Context) {
             mDialog = Dialog(context)
+            mDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            mDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            mDialog?.setContentView(R.layout.progress)
         }
 
         fun clearContext() {
@@ -23,16 +23,12 @@ class Loading {
         }
 
         fun show() {
-            mDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            mDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            mDialog?.setContentView(R.layout.progress)
             mDialog?.show()
         }
 
         fun dismiss() {
             if (mDialog != null && mDialog?.isShowing == true) {
                 mDialog?.dismiss()
-                mDialog = null
             }
         }
     }
