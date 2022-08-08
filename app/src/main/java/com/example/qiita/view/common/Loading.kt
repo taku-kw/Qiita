@@ -15,6 +15,7 @@ class Loading {
             mDialog = Dialog(context)
             mDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             mDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            mDialog?.setCanceledOnTouchOutside(false)
             mDialog?.setContentView(R.layout.progress)
         }
 
