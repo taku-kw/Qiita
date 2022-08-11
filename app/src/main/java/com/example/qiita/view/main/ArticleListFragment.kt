@@ -68,7 +68,10 @@ class ArticleListFragment : Fragment() {
         })
 
         model.loadingState.observe(viewLifecycleOwner) { state ->
-            if (state == LoadingState.NOT_LOADING) {
+            if (state == LoadingState.LOADING) {
+                Loading.show()
+            }
+            else if (state == LoadingState.NOT_LOADING) {
                 Loading.dismiss()
             }
         }

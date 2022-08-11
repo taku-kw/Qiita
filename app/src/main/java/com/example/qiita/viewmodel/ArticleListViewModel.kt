@@ -44,6 +44,7 @@ class ArticleListViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                beginLoading()
                 // TODO ローディングの確認用にsleep
                 Thread.sleep(3000)
 
@@ -80,11 +81,11 @@ class ArticleListViewModel @Inject constructor(
         articleList.postValue(mutableListOf())
     }
 
-    fun beginLoading() {
+    private fun beginLoading() {
         loadingState.postValue(LoadingState.LOADING)
     }
 
-    fun endLoading() {
+    private fun endLoading() {
         loadingState.postValue(LoadingState.NOT_LOADING)
     }
 }
