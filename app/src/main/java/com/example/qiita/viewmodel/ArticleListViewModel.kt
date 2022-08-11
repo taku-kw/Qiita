@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.qiita.constant.LoadingState
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
-import com.example.qiita.view.common.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +23,7 @@ class ArticleListViewModel @Inject constructor(
 
     private var searchWord = ""
     private var page = 0
-    private val perPage = 20
+    val itemPerPage = 20
     private var totalCount = 0
 
     init {
@@ -48,7 +47,7 @@ class ArticleListViewModel @Inject constructor(
                 // TODO ローディングの確認用にsleep
                 Thread.sleep(3000)
 
-                val data = articleListRepository.getArticleList(searchWord, page, perPage)
+                val data = articleListRepository.getArticleList(searchWord, page, itemPerPage)
 
                 val newArticleList = data.list as MutableList<Article>
                 val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
@@ -72,7 +71,7 @@ class ArticleListViewModel @Inject constructor(
     }
 
     fun searchNextArticle() {
-        if (page * perPage < totalCount) {
+        if (page * itemPerPage < totalCount) {
             searchArticle(searchWord, ++page, articleList.value!!)
         }
     }

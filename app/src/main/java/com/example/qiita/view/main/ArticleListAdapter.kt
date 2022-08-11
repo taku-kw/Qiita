@@ -72,6 +72,11 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
         notifyDataSetChanged()
     }
 
+    fun rangeInsertArticleList(articleList: List<Article>, positionStart: Int, itemCount: Int) {
+        this.articleList = articleList
+        notifyItemRangeInserted(positionStart, itemCount)
+    }
+
     fun setOnArticleClickListener(listener: OnArticleClickListener) {
         this.clickListener = listener
     }

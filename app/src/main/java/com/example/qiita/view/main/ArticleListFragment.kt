@@ -64,7 +64,15 @@ class ArticleListFragment : Fragment() {
 
         model.articleList.observe(viewLifecycleOwner, Observer { list ->
             val tempAdapter = articleListView.adapter as ArticleListAdapter
-            tempAdapter.setArticleList(list)
+            if (list.size <= model.itemPerPage) {
+                tempAdapter.setArticleList(list)
+            } else {
+                tempAdapter.rangeInsertArticleList(
+                    list,
+                    tempAdapter.itemCount,
+                    list.size - tempAdapter.itemCount,
+                )
+            }
         })
 
         model.loadingState.observe(viewLifecycleOwner) { state ->
