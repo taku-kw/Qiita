@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.qiita.constant.ArticleListConst
 import com.example.qiita.constant.LoadingState
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
@@ -23,7 +24,7 @@ class ArticleListViewModel @Inject constructor(
 
     private var searchWord = ""
     private var page = 0
-    val itemPerPage = 20
+    private val itemPerPage = ArticleListConst.ITEM_PER_PAGE
     private var totalCount = 0
 
     init {
