@@ -11,7 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qiita.R
+import com.example.qiita.constant.LoadingState
 import com.example.qiita.data.Article
+import com.example.qiita.view.common.Loading
 import com.example.qiita.view.contents.ContentsFragment
 import com.example.qiita.viewmodel.ArticleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,13 +60,30 @@ class ArticleListFragment : Fragment() {
             })
         }
 
+        Loading.setContext(view.context)
+
         model.articleList.observe(viewLifecycleOwner, Observer { list ->
             val tempAdapter = articleListView.adapter as ArticleListAdapter
             tempAdapter.setArticleList(list)
         })
 
+        model.loadingState.observe(viewLifecycleOwner) { state ->
+            if (state == LoadingState.LOADING) {
+                Loading.show()
+            }
+            else if (state == LoadingState.NOT_LOADING) {
+                Loading.dismiss()
+            }
+        }
+
         model.toastMsg.observe(viewLifecycleOwner, Observer { msg ->
             Toast.makeText(view.context, msg, Toast.LENGTH_LONG).show()
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        Loading.clearContext()
     }
 }

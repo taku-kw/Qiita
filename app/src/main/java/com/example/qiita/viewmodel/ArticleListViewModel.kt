@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.qiita.constant.LoadingState
 import com.example.qiita.data.Article
 import com.example.qiita.repository.ArticleListRepository
+import com.example.qiita.view.common.Loading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ class ArticleListViewModel @Inject constructor(
     private val articleListRepository: ArticleListRepository
 ) : ViewModel() {
     val articleList = MutableLiveData<MutableList<Article>>(mutableListOf())
+    val loadingState = MutableLiveData(LoadingState.NOT_LOADING)
     val toastMsg = MutableLiveData<String>()
 
     private var searchWord = ""
@@ -41,11 +44,16 @@ class ArticleListViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                beginLoading()
+                // TODO ローディングの確認用にsleep
+                Thread.sleep(3000)
+
                 val data = articleListRepository.getArticleList(searchWord, page, perPage)
 
                 val newArticleList = data.list as MutableList<Article>
                 val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
                 articleList.postValue(joinedArticleList)
+                endLoading()
 
                 this@ArticleListViewModel.searchWord = searchWord
                 this@ArticleListViewModel.page = page
@@ -71,5 +79,13 @@ class ArticleListViewModel @Inject constructor(
 
     fun reset() {
         articleList.postValue(mutableListOf())
+    }
+
+    private fun beginLoading() {
+        loadingState.postValue(LoadingState.LOADING)
+    }
+
+    private fun endLoading() {
+        loadingState.postValue(LoadingState.NOT_LOADING)
     }
 }

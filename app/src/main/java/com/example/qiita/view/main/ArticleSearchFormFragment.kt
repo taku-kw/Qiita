@@ -12,6 +12,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.qiita.R
+import com.example.qiita.view.common.Loading
 import com.example.qiita.viewmodel.ArticleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,7 @@ class ArticleSearchFormFragment: Fragment() {
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 inputMethodManager.hideSoftInputFromWindow(searchWord.windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
                 model.reset()
+                Loading.show()
                 model.searchArticle(searchWord.text.toString())
                 return@setOnKeyListener true
             }
