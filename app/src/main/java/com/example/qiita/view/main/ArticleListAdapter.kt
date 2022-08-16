@@ -13,11 +13,13 @@ import coil.load
 import com.example.qiita.R
 import com.example.qiita.constant.ViewType
 import com.example.qiita.data.Article
+import com.example.qiita.data.ArticleView
+import com.example.qiita.data.progressArticleView
 import de.hdodenhof.circleimageview.CircleImageView
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ArticleListAdapter(private val context: Context, private var articleList: MutableList<Article>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ArticleListAdapter(private val context: Context, private var articleList: MutableList<ArticleView>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class DataViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val avatarImage : CircleImageView
@@ -53,13 +55,14 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is DataViewHolder) {
-            holder.avatarImage.load(Uri.parse(articleList[position].avatarImagePath))
-            holder.userName.text = articleList[position].userName
-            holder.postDate.text = convStringFromLocalDate(articleList[position].postDate)
-            holder.articleTitle.text = articleList[position].articleTitle
+            val article = articleList[position].article
+            holder.avatarImage.load(Uri.parse(article.avatarImagePath))
+            holder.userName.text = article.userName
+            holder.postDate.text = convStringFromLocalDate(article.postDate)
+            holder.articleTitle.text = article.articleTitle
 
             holder.itemView.setOnClickListener {
-                clickListener.onItemClick(articleList[position])
+                clickListener.onItemClick(article)
             }
         }
     }
@@ -67,11 +70,7 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
     override fun getItemCount(): Int = articleList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (isViewTypeData(articleList[position])) {
-            ViewType.VIEW_TYPE_DATA.ordinal
-        } else {
-            ViewType.VIEW_TYPE_PROGRESS.ordinal
-        }
+        return articleList[position].viewType.ordinal
     }
 
     private fun getBitmapFromAssets(path : String) : Bitmap {
@@ -84,17 +83,13 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
         return localDate.format(dtf)
     }
 
-    private fun isViewTypeData(article: Article) : Boolean {
-        return article.articleTitle.isNotEmpty()
-    }
-
     fun setArticleList(articleList: List<Article>) {
-        this.articleList = articleList.toMutableList()
+        this.articleList = convArticleViewList(articleList)
         notifyDataSetChanged()
     }
 
     fun rangeInsertArticleList(articleList: List<Article>, positionStart: Int, itemCount: Int) {
-        this.articleList = articleList.toMutableList()
+        this.articleList = convArticleViewList(articleList)
         notifyItemRangeInserted(positionStart, itemCount)
     }
 
@@ -103,12 +98,24 @@ class ArticleListAdapter(private val context: Context, private var articleList: 
     }
 
     fun addProgressView() {
-        this.articleList.add(Article("", "", LocalDate.now(), "", ""))
+        this.articleList.add(progressArticleView)
         notifyItemInserted(this.articleList.size - 1)
     }
 
     fun removeProgressView() {
         this.articleList.removeLast()
         notifyItemRemoved(this.articleList.size)
+    }
+
+    private fun convArticleViewList(articleList: List<Article>): MutableList<ArticleView> {
+        val articleViewList = mutableListOf<ArticleView>()
+
+        articleList.forEach { article ->
+            articleViewList.add(
+                ArticleView(article, ViewType.VIEW_TYPE_DATA)
+            )
+        }
+
+        return articleViewList
     }
 }
