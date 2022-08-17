@@ -37,43 +37,48 @@ class ArticleListViewModel @Inject constructor(
         }
     }
 
-    fun searchArticle(
+    private suspend fun commonSearchArticle(
         searchWord: String,
         page: Int = 1,
         existingArticleList: MutableList<Article> = mutableListOf()
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                beginLoading()
-                // TODO ローディングの確認用にsleep
-                Thread.sleep(3000)
+        try {
+            Thread.sleep(3000)
 
-                val data = articleListRepository.getArticleList(searchWord, page, itemPerPage)
+            val data = articleListRepository.getArticleList(searchWord, page, itemPerPage)
 
-                val newArticleList = data.list as MutableList<Article>
-                val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
-                articleList.postValue(joinedArticleList)
-                endLoading()
+            val newArticleList = data.list as MutableList<Article>
+            val joinedArticleList = (existingArticleList + newArticleList).toMutableList()
+            articleList.postValue(joinedArticleList)
 
-                this@ArticleListViewModel.searchWord = searchWord
-                this@ArticleListViewModel.page = page
-                this@ArticleListViewModel.totalCount = data.totalCount
+            this@ArticleListViewModel.searchWord = searchWord
+            this@ArticleListViewModel.page = page
+            this@ArticleListViewModel.totalCount = data.totalCount
 
-                // 初回読み込みの場合、DBに保存する
-                if (page == 1) {
-                    articleListRepository.saveArticleList(joinedArticleList)
-                }
-
-            } catch (e: Exception) {
-                Log.w("searchArticle", e.toString())
-                toastMsg.postValue(e.toString())
+            // 初回読み込みの場合、DBに保存する
+            if (page == 1) {
+                articleListRepository.saveArticleList(joinedArticleList)
             }
+
+        } catch (e: Exception) {
+            Log.w("searchArticle", e.toString())
+            toastMsg.postValue(e.toString())
+        }
+    }
+
+    fun searchArticle(searchWord: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            beginLoading()
+            commonSearchArticle(searchWord)
+            endLoading()
         }
     }
 
     fun searchNextArticle() {
         if (page * itemPerPage < totalCount) {
-            searchArticle(searchWord, ++page, articleList.value!!)
+            viewModelScope.launch(Dispatchers.IO) {
+                commonSearchArticle(searchWord, ++page, articleList.value!!)
+            }
         }
     }
 

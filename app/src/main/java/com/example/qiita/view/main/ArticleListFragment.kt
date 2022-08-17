@@ -35,7 +35,7 @@ class ArticleListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val articleListView = view.findViewById<RecyclerView>(R.id.articleListView)
-        val adapter = ArticleListAdapter(view.context, listOf())
+        val adapter = ArticleListAdapter(view.context, mutableListOf())
 
         articleListView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         articleListView.adapter = adapter
@@ -56,7 +56,7 @@ class ArticleListFragment : Fragment() {
             val linearLayoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
             layoutManager = linearLayoutManager
             setAdapter(adapter)
-            addOnScrollListener(ArticleListScrollListener(linearLayoutManager) {
+            addOnScrollListener(ArticleListScrollListener(linearLayoutManager, this.adapter as ArticleListAdapter) {
                 model.searchNextArticle()
             })
         }

@@ -1,11 +1,11 @@
 package com.example.qiita.view.main
 
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ArticleListScrollListener(
     val layoutManager: LinearLayoutManager,
+    val adapter: ArticleListAdapter,
     val getNextPageFunction: () -> Unit,
 ) : RecyclerView.OnScrollListener() {
 
@@ -27,6 +27,9 @@ class ArticleListScrollListener(
 
             if (loading) {
                 if (totalItemCount > previousTotal) {
+                    recyclerView.post {
+                        adapter.removeProgressView()
+                    }
                     loading = false
                     previousTotal = totalItemCount
                 }
@@ -34,6 +37,9 @@ class ArticleListScrollListener(
             if (!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)
             ) {
+                recyclerView.post {
+                    adapter.addProgressView()
+                }
                 getNextPageFunction()
                 loading = true
             }
